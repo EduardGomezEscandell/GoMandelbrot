@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	center := maths.Complex{Real: -0.9, Imag: 0.25}
+	center := maths.Complex{Real: -0.6, Imag: 0.0}
 	width := 3.0
 	height := 2.0
 
