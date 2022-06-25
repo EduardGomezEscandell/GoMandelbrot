@@ -1,15 +1,15 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
 	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
 
 func main() {
-	image := imageIO.NewImage("mandelbrot.ppm", 1080, 720)
-	defer image.Close()
 
-	center := maths.Complex{Real: -0.6, Imag: 0.0}
+	center := maths.Complex{Real: -0.9, Imag: 0.25}
 	width := 3.0
 	height := 2.0
 
@@ -22,6 +22,11 @@ func main() {
 		panic(err)
 	}
 	colormap.Invert()
+
+	image := imageIO.NewImage("mandelbrot.ppm", 1080, 720)
+	defer image.Close()
+
+	image.Comment(fmt.Sprintf("Mandelbrot set, centered around %f+%fi, width %f, height %f", center.Real, center.Imag, width, height))
 
 	for image.Index() < image.Size() {
 		c := maths.PixelToCoordinate(&image, xspan, yspan)

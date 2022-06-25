@@ -36,6 +36,10 @@ func NewImage(filename string, width int, height int) SequentialImage {
 	return image
 }
 
+func (img *SequentialImage) Comment(comment string) {
+	fmt.Fprintf(img.file, "# %s\n", comment)
+}
+
 func (img *SequentialImage) Close() {
 	for img.curr_position < img.size {
 		img.NextPixel(Color{})
