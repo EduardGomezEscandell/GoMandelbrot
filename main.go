@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/EduardGomezEscandell/mandelbrotgo/imageIO"
-	"github.com/EduardGomezEscandell/mandelbrotgo/maths"
+	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
+	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
 
 func main() {

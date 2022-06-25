@@ -1,7 +1,7 @@
 package maths
 
 import (
-	"github.com/EduardGomezEscandell/mandelbrotgo/imageIO"
+	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
 )
 
 type Complex struct {
