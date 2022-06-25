@@ -26,7 +26,7 @@ func main() {
 	image := imageIO.NewImage("mandelbrot.ppm", 1080, 720)
 	defer image.Close()
 
-	image.Comment(fmt.Sprintf("Mandelbrot set, centered around %f+%fi, width %f, height %f", center.Real, center.Imag, width, height))
+	image.Comment(fmt.Sprintf("Mandelbrot set, centered around %f%+fi, width %f, height %f", center.Real, center.Imag, width, height))
 
 	for image.Index() < image.Size() {
 		c := maths.PixelToCoordinate(&image, xspan, yspan)
