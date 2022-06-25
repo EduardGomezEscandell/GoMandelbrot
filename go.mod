@@ -1,3 +1,3 @@
-module github.com/EduardGomezEscandell/mandelbrotgo
+module github.com/EduardGomezEscandell/GoMandelbrot
 
 go 1.18
