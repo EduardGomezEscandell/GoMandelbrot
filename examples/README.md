@@ -1,13 +1,5 @@
 # Generation data
 
-### spirals
-- Max iterations: 1000
-- Resolution: 1920 x 1080
-- Colormap: grayscale [50, 200]
-- Complex plane center: -0.803300 +0.178000i
-- Complex plane span:   0.001700 +0.000956i
-![image](spirals.png)
-
 ### full
 - Max iterations: 1000
 - Resolution: 1920 x 1080
@@ -15,6 +7,14 @@
 - Complex plane center: -0.600000 +0.000000i
 - Complex plane span:   4.000000 +2.250000i
 ![image](full.png)
+
+### spirals
+- Max iterations: 1000
+- Resolution: 1920 x 1080
+- Colormap: grayscale [50, 200]
+- Complex plane center: -0.803300 +0.178000i
+- Complex plane span:   0.001700 +0.000956i
+![image](spirals.png)
 
 ### copies
 - Max iterations: 1000
