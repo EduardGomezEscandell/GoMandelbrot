@@ -64,19 +64,15 @@ func PPMcheck(filename string) int {
 	last := data[len(data)-1]
 	penultimate := data[len(data)-2]
 
-	if len(data) < 2 {
-		return -1
-	}
-
-	if len(data) >= 2 && last == "ppm" {
-		return ppm_BINARY
-	}
-
 	if len(data) >= 3 && penultimate == "ascii" && last == "ppm" {
 		return ppm_ASCII
 	}
 
 	if len(data) >= 3 && penultimate == "bin" && last == "ppm" {
+		return ppm_BINARY
+	}
+
+	if len(data) >= 2 && last == "ppm" {
 		return ppm_BINARY
 	}
 
