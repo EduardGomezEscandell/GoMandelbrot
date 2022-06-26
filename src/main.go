@@ -42,7 +42,6 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 	flag.StringVar(&colormap, "c", colormap, "Colormap name")
 	flag.IntVar(&colormap_lb, "clb", colormap_lb, "Colormap lower bound")
 	flag.IntVar(&colormap_ub, "cub", colormap_ub, "Colormap upper bound")
-	flag.BoolVar(&colormap_invert, "ci", colormap_invert, "Invert colormap")
 
 	flag.StringVar(&zcenter, "zc", zcenter, "Center of the complex plane")
 	flag.Float64Var(&zspan, "zs", zspan, "Horizontal span of the complex plane")
@@ -54,13 +53,10 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 
 	// Post-processing
 	if colormap_lb < 0 {
-		colormap_ub = 0
+		colormap_lb = 0
 	}
 	if colormap_ub < 0 {
 		colormap_ub = max_iter
-	}
-	if colormap_invert {
-		maths.Swap(&colormap_lb, &colormap_ub)
 	}
 
 	center := maths.ParseComplex(zcenter)
