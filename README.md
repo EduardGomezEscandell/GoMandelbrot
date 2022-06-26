@@ -10,6 +10,12 @@ It is known that if `|z| > 2`, then the value diverges, hence we can color the c
 
 In these images, lighter colors represent faster divergence times (i.e. fewest iterations before exiting the threshold), and pure black represents that the maximum number of iterations has been reached.
 
+### Image format
+The image is outputted as a [NetPBM](https://en.wikipedia.org/wiki/Netpbm) image, you can convert them to png with:
+```bash
+pnmtopng mandelbrot.ppm > mandelbrot.png
+```
+
 ### Work in progress
 - [ ] Currently the biggest performance bottleneck is writing to disk. To fix this, it would be wise to use a more efficient file storage format.
 - [ ] Too many hardcoded variables. Ideally they are passed as command-line arguments
