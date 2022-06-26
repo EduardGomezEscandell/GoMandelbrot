@@ -3,9 +3,9 @@ package image
 import "math"
 
 type Color struct {
-	R uint8
-	G uint8
-	B uint8
+	R byte
+	G byte
+	B byte
 }
 
 func ColorFromHex(hex int32) Color {
