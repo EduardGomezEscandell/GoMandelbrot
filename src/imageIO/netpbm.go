@@ -22,9 +22,9 @@ func ppm_header(filehandle *os.File, img *image.Image, encoding int) {
 		panic("Unknown encoding")
 	}
 
+	fmt.Fprintf(filehandle, "# %s\n", img.Title)
 	fmt.Fprintf(filehandle, "%d %d\n", img.Width, img.Height)
 	fmt.Fprintf(filehandle, "255\n")
-	fmt.Fprintf(filehandle, "# %s\n", img.Title)
 }
 
 func ppm_body(filehandle *os.File, img *image.Image, encoding int) {
