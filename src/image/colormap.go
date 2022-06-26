@@ -20,20 +20,13 @@ type Colormap struct {
 	eval  func(*Colormap, float64) Color
 }
 
-func (cmap *Colormap) Invert() *Colormap {
-	tmp := cmap.Lower
-	cmap.Lower = cmap.Upper
-	cmap.Upper = tmp
-	return cmap
-}
-
 func (cmap *Colormap) Eval(value int) Color {
 	value_normalized := normalize(cmap.Lower, value, cmap.Upper)
 	return cmap.eval(cmap, value_normalized)
 }
 
 func grayScaleEval(cmap *Colormap, value_normalized float64) Color {
-	x := uint8(value_normalized * 255)
+	x := 255 - uint8(value_normalized*255)
 	return Color{
 		R: x,
 		G: x,

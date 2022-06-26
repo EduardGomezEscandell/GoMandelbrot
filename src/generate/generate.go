@@ -6,11 +6,12 @@ import (
 )
 
 type GenerationData struct {
-	Img     image.Image
-	Cmap    image.Colormap
-	Maxiter int
-	Xspan   [2]float64
-	Yspan   [2]float64
+	Img            image.Image
+	Cmap           image.Colormap
+	Maxiter        int
+	Xspan          [2]float64
+	Yspan          [2]float64
+	OutputFilename string
 }
 
 func (self *GenerationData) DefineComplexFrame(center maths.Complex, real_span float64, imag_span float64) {

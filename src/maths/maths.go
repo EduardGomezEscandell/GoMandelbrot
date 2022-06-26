@@ -1,6 +1,9 @@
 package maths
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/EduardGomezEscandell/GoMandelbrot/image"
 )
 
@@ -40,4 +43,32 @@ func MandelbrotDivergenceIter(c Complex, max_iter int) int {
 		}
 	}
 	return max_iter
+}
+
+func ParseComplex(name string) Complex {
+	name_trimmed := strings.Replace(name, " ", "", -1)
+	var c Complex
+
+	// Canonical form
+	if found, err := fmt.Sscanf(name_trimmed, "%f%fi", &c.Real, &c.Imag); err != nil && found == 2 {
+		return c
+	}
+
+	// Real only
+	if found, err := fmt.Sscanf(name_trimmed, "%f", &c.Real, &c.Imag); err != nil && found == 1 {
+		return c
+	}
+
+	// Imaginary only
+	if found, err := fmt.Sscanf(name_trimmed, "%fi", &c.Real, &c.Imag); err != nil && found == 1 {
+		return c
+	}
+
+	panic(fmt.Sprintf("Failed to parse complex number: %s", name_trimmed))
+}
+
+func Swap(a *int, b *int) {
+	tmp := *b
+	*b = *a
+	*a = tmp
 }
