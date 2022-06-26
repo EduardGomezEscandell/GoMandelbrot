@@ -13,15 +13,15 @@ func main() {
 	max_iter := 1000
 
 	gdata := generate.GenerationData{
-		Img:     image.NewImage("mandelbrot.ppm", 1080, 720),
+		Img:     image.NewImage("mandelbrot.ppm", 1920, 1080),
 		Maxiter: max_iter,
-		Cmap:    image.ColormapFactory("grayscale", 0, 100),
+		Cmap:    image.ColormapFactory("grayscale", 0, 200),
 	}
 	gdata.Cmap.Invert()
 
-	center := maths.Complex{Real: -0.9, Imag: 0.25}
-	real_span := 0.1875
-	imag_span := 0.125
+	center := maths.Complex{Real: -0.8033, Imag: 0.178}
+	real_span := 0.001 * 1920.0 / 1080.0
+	imag_span := 0.001
 	gdata.DefineComplexFrame(center, real_span, imag_span)
 
 	gdata.Img.Title = fmt.Sprintf(
@@ -31,7 +31,7 @@ func main() {
 	gdata.GenerateConcurrent()
 
 	println("Image generated. Storing...")
-	image.ImagePPMOutput(&gdata.Img, "mandelbrot.ppm")
+	image.ImagePPMOutput(&gdata.Img, "mandelbrot.ppm", image.BINARY)
 
 	println("Done")
 }
