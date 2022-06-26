@@ -1,7 +1,7 @@
 # Generation data
 
 ### full
-- Max iterations: 1000
+- Max iterations: 200
 - Resolution: 1920 x 1080
 - Colormap: grayscale [0, 200]
 - Complex plane center: -0.600000 +0.000000i
@@ -10,7 +10,7 @@
 ![image](full.png)
 
 ### spirals
-- Max iterations: 1000
+- Max iterations: 200
 - Resolution: 1920 x 1080
 - Colormap: grayscale [50, 200]
 - Complex plane center: -0.803300 +0.178000i
@@ -19,7 +19,7 @@
 ![image](spirals.png)
 
 ### copies
-- Max iterations: 1000
+- Max iterations: 200
 - Resolution: 1920 x 1080
 - Colormap: grayscale [0, 200]
 - Complex plane center: -0.900000 +0.250000i
@@ -30,7 +30,7 @@
 
 
 ## mini
-- Max iterations: 5000
+- Max iterations: 400
 - Resolution: 1920 x 1080
 - Colormap: grayscale [0, 400]
 - Complex plane center: -1.256000 +0.382000i
