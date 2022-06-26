@@ -5,6 +5,7 @@ import (
 
 	"github.com/EduardGomezEscandell/GoMandelbrot/generate"
 	"github.com/EduardGomezEscandell/GoMandelbrot/image"
+	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
 	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
 
@@ -31,7 +32,7 @@ func main() {
 	gdata.GenerateConcurrent()
 
 	println("Image generated. Storing...")
-	image.ImagePPMOutput(&gdata.Img, "mandelbrot.ppm", image.BINARY)
+	imageIO.ImagePPMOutput(&gdata.Img, "mandelbrot.ppm", imageIO.BINARY)
 
 	println("Done")
 }

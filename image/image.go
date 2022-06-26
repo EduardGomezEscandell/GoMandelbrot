@@ -3,7 +3,7 @@ package image
 type Image struct {
 	// private
 	size   int
-	pixels []Color
+	Pixels []Color
 
 	// public
 	Title  string
@@ -16,7 +16,7 @@ func NewImage(filename string, width int, height int) Image {
 	image.Width = width
 	image.Height = height
 	image.size = width * height
-	image.pixels = make([]Color, image.size)
+	image.Pixels = make([]Color, image.size)
 
 	return image
 }
@@ -78,11 +78,11 @@ func (self *Iterator) Next() *Iterator {
 }
 
 func (self *Iterator) Set(color Color) {
-	self.image.pixels[self.idx] = color
+	self.image.Pixels[self.idx] = color
 }
 
 func (self *Iterator) Get() Color {
-	return self.image.pixels[self.idx]
+	return self.image.Pixels[self.idx]
 }
 
 func (self *Iterator) Position() (int, int) {

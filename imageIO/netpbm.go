@@ -1,8 +1,10 @@
-package image
+package imageIO
 
 import (
 	"fmt"
 	"os"
+
+	"github.com/EduardGomezEscandell/GoMandelbrot/image"
 )
 
 const (
@@ -10,7 +12,7 @@ const (
 	ASCII
 )
 
-func ppm_header(filehandle *os.File, img *Image, encoding int) {
+func ppm_header(filehandle *os.File, img *image.Image, encoding int) {
 
 	if encoding == ASCII {
 		fmt.Fprintf(filehandle, "P3\n")
@@ -25,13 +27,13 @@ func ppm_header(filehandle *os.File, img *Image, encoding int) {
 	fmt.Fprintf(filehandle, "# %s\n", img.Title)
 }
 
-func ppm_body(filehandle *os.File, img *Image, encoding int) {
+func ppm_body(filehandle *os.File, img *image.Image, encoding int) {
 	if encoding == ASCII {
-		for _, px := range img.pixels {
+		for _, px := range img.Pixels {
 			fmt.Fprintf(filehandle, "%d %d %d ", px.R, px.G, px.B)
 		}
 	} else if encoding == BINARY {
-		for _, px := range img.pixels {
+		for _, px := range img.Pixels {
 			filehandle.Write([]byte{px.R, px.G, px.B})
 		}
 	} else {
@@ -39,7 +41,7 @@ func ppm_body(filehandle *os.File, img *Image, encoding int) {
 	}
 }
 
-func ImagePPMOutput(img *Image, filename string, encoding int) error {
+func ImagePPMOutput(img *image.Image, filename string, encoding int) error {
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
