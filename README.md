@@ -17,4 +17,5 @@ Image centered at -0.8033 + 0.178i, width is 0.001778 and height is 0.001:
 ![image](examples/-08033+0178i.png)
 
 ### Upcoming
-Currently the biggest performance bottleneck is writing to disk. To fix this, it would be wise to use a more efficient file storage format.
+- [ ] Currently the biggest performance bottleneck is writing to disk. To fix this, it would be wise to use a more efficient file storage format.
+- [ ] Too many hardcoded variables. Ideally they are passed as command-line arguments
