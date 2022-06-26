@@ -1,6 +1,6 @@
 # Generation data
 
-### full
+### Full
 - Max iterations: 200
 - Resolution: 1920 x 1080
 - Colormap: grayscale [0, 200]
@@ -9,7 +9,7 @@
 
 ![image](full.png)
 
-### spirals
+### Spirals
 - Max iterations: 200
 - Resolution: 1920 x 1080
 - Colormap: grayscale [50, 200]
@@ -18,7 +18,16 @@
 
 ![image](spirals.png)
 
-### copies
+### Octopus
+- Max iterations: 1500
+- Resolution: 1920 x 1080
+- Colormap: grayscale [150, 1500] nl=100000
+- Complex plane center: -0.802627 +0.1774515i
+- Complex plane span:   2e-05 +1.125e-05i
+
+![image](octopus.png)
+
+### Copies
 - Max iterations: 200
 - Resolution: 1920 x 1080
 - Colormap: grayscale [0, 200]
@@ -29,7 +38,7 @@
 ![image](copies.png)
 
 
-## mini
+## Mini
 - Max iterations: 400
 - Resolution: 1920 x 1080
 - Colormap: grayscale [0, 400]

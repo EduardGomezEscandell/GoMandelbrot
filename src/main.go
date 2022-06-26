@@ -23,9 +23,12 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 
 	image_width := 1920
 	image_height := 1080
+
 	colormap := "grayscale"
 	colormap_lb := 0
 	colormap_ub := -1
+	colormap_nl_inverted := 0.0 // Nonlinearity [0, +inf)
+
 	output_filename := "mandelbrot.ppm"
 
 	zcenter := "-0.8033+0.178i"
@@ -41,6 +44,7 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 	flag.StringVar(&colormap, "c", colormap, "Colormap name")
 	flag.IntVar(&colormap_lb, "clb", colormap_lb, "Colormap lower bound")
 	flag.IntVar(&colormap_ub, "cub", colormap_ub, "Colormap upper bound")
+	flag.Float64Var(&colormap_nl_inverted, "cnl", colormap_nl_inverted, "Colormap nonlinearity (0 is none, up to +inf)")
 
 	flag.StringVar(&zcenter, "zc", zcenter, "Center of the complex plane")
 	flag.Float64Var(&zspan, "zs", zspan, "Horizontal span of the complex plane")
@@ -57,6 +61,7 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 	if colormap_ub < 0 {
 		colormap_ub = max_iter
 	}
+	color_nonlinearity := 1.0 / (colormap_nl_inverted + 1.0e-10)
 
 	center := maths.ParseComplex(zcenter)
 	aspect_ratio := float64(image_height) / float64(image_width)
@@ -67,16 +72,16 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 	Log(verbose, fmt.Sprintf("Generating image with the following settings:"))
 	Log(verbose, fmt.Sprintf("  Max iterations: %d", max_iter))
 	Log(verbose, fmt.Sprintf("  Resolution: %d x %d", image_width, image_height))
-	Log(verbose, fmt.Sprintf("  Colormap: %s [%d, %d]", colormap, colormap_lb, colormap_ub))
-	Log(verbose, fmt.Sprintf("  Complex plane center: %f %+fi", center.Real, center.Imag))
-	Log(verbose, fmt.Sprintf("  Complex plane span:   %f %+fi", real_span, imag_span))
+	Log(verbose, fmt.Sprintf("  Colormap: %s [%d, %d] nl=%g", colormap, colormap_lb, colormap_ub, colormap_nl_inverted))
+	Log(verbose, fmt.Sprintf("  Complex plane center: %g%+gi", center.Real, center.Imag))
+	Log(verbose, fmt.Sprintf("  Complex plane span:   %g%+gi", real_span, imag_span))
 	Log(verbose, fmt.Sprintf("  Output filename:   %s", output_filename))
 
 	// Packing into GenerationData
 	gdata := generate.GenerationData{
 		Img:            image.NewImage(image_width, image_height),
 		Maxiter:        max_iter,
-		Cmap:           image.ColormapFactory(colormap, colormap_lb, colormap_ub),
+		Cmap:           image.ColormapFactory(colormap, colormap_lb, colormap_ub, color_nonlinearity),
 		OutputFilename: output_filename,
 	}
 	gdata.DefineComplexFrame(center, real_span, imag_span)
