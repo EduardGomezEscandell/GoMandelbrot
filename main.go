@@ -3,40 +3,35 @@ package main
 import (
 	"fmt"
 
+	"github.com/EduardGomezEscandell/GoMandelbrot/generate"
 	"github.com/EduardGomezEscandell/GoMandelbrot/image"
 	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
 
 func main() {
 
-	center := maths.Complex{Real: -0.6, Imag: 0.0}
-	width := 2.0 * 1.77777777778
-	height := 2.0
+	max_iter := 1000
 
-	xspan := [2]float64{center.Real - width/2, center.Real + width/2}
-	yspan := [2]float64{center.Imag - height/2, center.Imag + height/2}
-	maxiter := 100
-
-	colormap, err := image.ColormapFactory("grayscale", 0, maxiter)
-	if err != nil {
-		panic(err)
+	gdata := generate.GenerationData{
+		Img:     image.NewImage("mandelbrot.ppm", 1080, 720),
+		Maxiter: max_iter,
+		Cmap:    image.ColormapFactory("grayscale", 0, 100),
 	}
-	colormap.Invert()
+	gdata.Cmap.Invert()
 
-	img := image.NewImage("mandelbrot.ppm", 1920, 1080)
-	img.Title = fmt.Sprintf("Mandelbrot set, centered around %f%+fi, width %f, height %f", center.Real, center.Imag, width, height)
+	center := maths.Complex{Real: -0.9, Imag: 0.25}
+	real_span := 0.1875
+	imag_span := 0.125
+	gdata.DefineComplexFrame(center, real_span, imag_span)
 
-	for row := img.RowsBegin(); row != img.RowsEnd(); row.Next() {
+	gdata.Img.Title = fmt.Sprintf(
+		"Mandelbrot set, centered around %f%+fi, width %f, height %f",
+		center.Real, center.Imag, real_span, imag_span)
 
-		go func(row image.Range) {
-			for it := row.Begin(); it != row.End(); it.Next() {
-				c := maths.PixelToCoordinate(&it, img.Width, img.Height, xspan, yspan)
-				niters := maths.MandelbrotDivergenceIter(c, maxiter)
-				it.Set(colormap.Eval(niters))
-			}
-		}(row)
+	gdata.GenerateConcurrent()
 
-	}
+	println("Image generated. Storing...")
+	image.ImagePPMOutput(&gdata.Img, "mandelbrot.ppm")
 
-	image.ImagePPMOutput(&img, "mandelbrot.ppm")
+	println("Done")
 }

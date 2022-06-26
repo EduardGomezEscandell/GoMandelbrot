@@ -58,6 +58,11 @@ func (self *Range) Next() *Range {
 	return self
 }
 
+func (self *Range) RowIndex() int {
+	row, _ := self.begin.Position()
+	return row
+}
+
 // Pixel-wise operations
 func (self *Range) Begin() Iterator {
 	return self.begin

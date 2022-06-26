@@ -2,6 +2,7 @@ package image
 
 import (
 	"errors"
+	"fmt"
 	"math"
 )
 
@@ -44,11 +45,11 @@ func rainbowEval(cmap *Colormap, value_normalized float64) Color {
 	return ColorFromHSV(x, 0.8, 1)
 }
 
-func ColormapFactory(name string, lower int, upper int) (Colormap, error) {
+func ColormapFactory(name string, lower int, upper int) Colormap {
 	if name == "grayscale" {
-		return Colormap{lower, upper, grayScaleEval}, nil
+		return Colormap{lower, upper, grayScaleEval}
 	} else if name == "rainbow" {
-		return Colormap{lower, upper, rainbowEval}, nil
+		return Colormap{lower, upper, rainbowEval}
 	}
-	return Colormap{lower, upper, nil}, errors.New("Colormap not found")
+	panic(errors.New(fmt.Sprintf("Colormap %s not found", name)))
 }
