@@ -1,7 +1,7 @@
 package maths
 
 import (
-	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
+	"github.com/EduardGomezEscandell/GoMandelbrot/image"
 )
 
 type Complex struct {
@@ -13,10 +13,10 @@ func rescale(xi_min int, xi int, xi_max int, x_min float64, x_max float64) float
 	return float64(xi-xi_min)/float64(xi_max-xi_min)*(x_max-x_min) + x_min
 }
 
-func PixelToCoordinate(image *imageIO.SequentialImage, xspan [2]float64, yspan [2]float64) Complex {
-	row, col := image.Position()
-	real := rescale(0, col, image.Width, xspan[0], xspan[1])
-	imag := rescale(0, image.Height-row, image.Height, yspan[0], yspan[1])
+func PixelToCoordinate(it *image.Iterator, width int, height int, xspan [2]float64, yspan [2]float64) Complex {
+	row, col := it.Position()
+	real := rescale(0, col, width, xspan[0], xspan[1])
+	imag := rescale(0, height-row, height, yspan[0], yspan[1])
 	return Complex{real, imag}
 }
 

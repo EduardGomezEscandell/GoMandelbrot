@@ -1,4 +1,4 @@
-package imageIO
+package image
 
 import (
 	"errors"
