@@ -26,7 +26,6 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 	colormap := "grayscale"
 	colormap_lb := 0
 	colormap_ub := -1
-	colormap_invert := false
 	output_filename := "mandelbrot.ppm"
 
 	zcenter := "-0.8033+0.178i"
