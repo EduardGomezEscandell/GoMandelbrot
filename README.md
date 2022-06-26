@@ -6,7 +6,7 @@ The [mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) is a mathemat
 - Starting with `z = 0`
 - Repeteadly applying the transformation `f: z → z*z + c`, the norm does not diverge to infinty.
 
-It is known that if `|z| > 2`, then the value diverges, hence we can color the complex plane according to how many iterations it takes to reach `|z| = 2`. To be certain that a particular point does not diverge, we'd have to iterate at infinitum, hence an upper bound must be set (in the latter images, `max_iter = 1000`). This upper bound controls the accuracy (higher is better) and computational expense (lower is cheaper).
+It is known that if `|z| > 2`, then the value diverges, hence we can color the complex plane according to how many iterations it takes to reach `|z| = 2`. To be certain that a particular point does not diverge, we'd have to iterate at infinitum, hence an upper bound must be set. This upper bound controls the accuracy (higher is better) and computational expense (lower is cheaper).
 
 In these images, lighter colors represent faster divergence times (i.e. fewest iterations before exiting the threshold), and pure black represents that the maximum number of iterations has been reached.
 
