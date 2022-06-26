@@ -14,7 +14,7 @@ func main() {
 	max_iter := 1000
 
 	gdata := generate.GenerationData{
-		Img:     image.NewImage("mandelbrot.ppm", 1920, 1080),
+		Img:     image.NewImage(1920, 1080),
 		Maxiter: max_iter,
 		Cmap:    image.ColormapFactory("grayscale", 0, 200),
 	}

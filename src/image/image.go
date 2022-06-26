@@ -11,7 +11,7 @@ type Image struct {
 	Height int
 }
 
-func NewImage(filename string, width int, height int) Image {
+func NewImage(width int, height int) Image {
 	image := Image{}
 	image.Width = width
 	image.Height = height
