@@ -16,6 +16,7 @@ func ImagePPMOutput(img *Image, filename string) error {
 	fmt.Fprintf(file, "P3\n")
 	fmt.Fprintf(file, "%d %d\n", img.Width, img.Height)
 	fmt.Fprintf(file, "255\n")
+	fmt.Fprintf(file, "# %s\n", img.Title)
 
 	for _, px := range img.pixels {
 		fmt.Fprintf(file, "%d %d %d\n", px.R, px.G, px.B)
