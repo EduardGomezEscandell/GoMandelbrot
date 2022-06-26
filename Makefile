@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/make
 
 compile:
 	cd src;                      \
