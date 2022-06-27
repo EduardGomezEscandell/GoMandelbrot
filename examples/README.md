@@ -33,6 +33,7 @@
 ### Octopus with sub-sampling
 Same as before, but with:
 - Subsampling level: 5
+
 Acts as an antialiasing. Performance impact is O(n²), with n being the subsampling level.
 
 ![image](octopus_ss.png)
