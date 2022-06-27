@@ -124,7 +124,7 @@ func main() {
 	}
 	TimedLog(config.Verbosity, start, "Input read. Generating map...")
 
-	frame := generate.GenerateConcurrent(&config)
+	frame := generate.Generate(&config)
 	TimedLog(config.Verbosity, start, "Map generated. Coloring...")
 
 	image := imageIO.IntToColor(&frame, config.Cmap)

@@ -68,7 +68,9 @@ func generate_row_subsampled(row frames.Row[int], config *Config) {
 }
 
 // Big loops
-func GenerateSequential(config *Config) frames.IntFrame {
+
+// Sequential version, for debugging
+func generate_sequential(config *Config) frames.IntFrame {
 	if config.SubscalingFactor == 1 {
 		frame := frames.NewIntFrame(config.Width, config.Height)
 		for i := uint(0); i < config.Height; i++ {
@@ -84,7 +86,8 @@ func GenerateSequential(config *Config) frames.IntFrame {
 	}
 }
 
-func GenerateConcurrent(config *Config) frames.IntFrame {
+// Concurrent version, for production
+func generate_concurrent(config *Config) frames.IntFrame {
 	var wg sync.WaitGroup
 	defer wg.Wait() // This is a barrier
 
@@ -110,3 +113,5 @@ func GenerateConcurrent(config *Config) frames.IntFrame {
 		return frame
 	}
 }
+
+var Generate = generate_concurrent
