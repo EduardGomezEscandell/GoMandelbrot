@@ -29,6 +29,7 @@ func (self *Frame[T]) GetRow(row uint) Row[T] {
 	return Row[T]{
 		begin: Iterator[T]{parent: self, idx: row * self.Width()},
 		end:   Iterator[T]{parent: self, idx: (row + 1) * self.Width()},
+		idx:   row,
 	}
 }
 

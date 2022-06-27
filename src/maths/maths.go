@@ -27,6 +27,24 @@ func mandelbrot_iteration(z Complex, c Complex) Complex {
 	}
 }
 
+func (z Complex) Add(x Complex) Complex {
+	x.Real = z.Real + x.Real
+	x.Imag = z.Imag + x.Imag
+	return x
+}
+
+func (z Complex) Subtract(x Complex) Complex {
+	x.Real = z.Real - x.Real
+	x.Imag = z.Imag - x.Imag
+	return x
+}
+
+func (z Complex) DivideScalar(n float64) Complex {
+	z.Real = z.Real / n
+	z.Imag = z.Imag / n
+	return z
+}
+
 func (z *Complex) MagnitudeSquared() float64 {
 	return z.Real*z.Real + z.Imag*z.Imag
 }

@@ -13,6 +13,7 @@ func (self *Frame[T]) End() Iterator[T] {
 type Row[T any] struct {
 	begin Iterator[T]
 	end   Iterator[T]
+	idx   uint
 }
 
 func (self *Row[T]) Begin() Iterator[T] {
@@ -21,6 +22,10 @@ func (self *Row[T]) Begin() Iterator[T] {
 
 func (self *Row[T]) End() Iterator[T] {
 	return self.end
+}
+
+func (self *Row[T]) Index() uint {
+	return self.idx
 }
 
 // Cells
@@ -35,10 +40,6 @@ func (self *Iterator[T]) Next() {
 
 func (self *Iterator[T]) Ptr() *T {
 	return (*self.parent).at(self.idx)
-}
-
-func (self *Iterator[T]) Position() (uint, uint) {
-	return self.parent.Position(self.idx)
 }
 
 func (self *Iterator[T]) Index() uint {
