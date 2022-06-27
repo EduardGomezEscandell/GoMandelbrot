@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/EduardGomezEscandell/GoMandelbrot/colors"
 	"github.com/EduardGomezEscandell/GoMandelbrot/generate"
-	"github.com/EduardGomezEscandell/GoMandelbrot/image"
 	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
 	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
@@ -16,7 +16,7 @@ func Log(verbose bool, text string) {
 	}
 }
 
-func parseAndAssignDefaults() (generate.GenerationData, bool) {
+func parseAndAssignDefaults() generate.Config {
 
 	// Defaults
 	max_iter := 1000
@@ -78,32 +78,37 @@ func parseAndAssignDefaults() (generate.GenerationData, bool) {
 	Log(verbose, fmt.Sprintf("  Output filename:   %s", output_filename))
 
 	// Packing into GenerationData
-	gdata := generate.GenerationData{
-		Img:            image.NewImage(image_width, image_height),
+	gdata := generate.Config{
+		Width:          uint(image_width),
+		Height:         uint(image_height),
 		Maxiter:        max_iter,
-		Cmap:           image.ColormapFactory(colormap, colormap_lb, colormap_ub, color_nonlinearity),
+		Cmap:           colors.ColormapFactory(colormap, colormap_lb, colormap_ub, color_nonlinearity),
 		OutputFilename: output_filename,
+		Verbosity:      verbose,
 	}
 	gdata.DefineComplexFrame(center, real_span, imag_span)
-
-	gdata.Img.Title = fmt.Sprintf(
+	gdata.MetaData = fmt.Sprintf(
 		"Mandelbrot set, centered around %f%+fi, width %f, height %f",
 		center.Real, center.Imag, real_span, imag_span)
 
-	return gdata, verbose
+	return gdata
 }
 
 func main() {
-	gdata, verbose := parseAndAssignDefaults()
+	config := parseAndAssignDefaults()
 
-	IOformat, err := imageIO.GetFileFormat(gdata.OutputFilename)
+	IOformat, err := imageIO.GetFileFormat(config.OutputFilename)
 	if err != nil {
 		panic(err) // Failing early
 	}
+	Log(config.Verbosity, "Generating map...")
 
-	gdata.GenerateConcurrent()
-	Log(verbose, "Image generated. Storing...")
+	frame := generate.GenerateConcurrent(&config)
+	Log(config.Verbosity, "Map generated. Coloring...")
 
-	imageIO.Save(&gdata.Img, gdata.OutputFilename, IOformat)
-	Log(verbose, "Done")
+	image := imageIO.IntToColor(&frame, config.Cmap)
+	Log(config.Verbosity, "Coloring done. Writing...")
+
+	imageIO.Save(&image, config.OutputFilename, IOformat)
+	Log(config.Verbosity, "Done")
 }

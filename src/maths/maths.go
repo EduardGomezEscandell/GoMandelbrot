@@ -3,8 +3,6 @@ package maths
 import (
 	"fmt"
 	"strings"
-
-	"github.com/EduardGomezEscandell/GoMandelbrot/image"
 )
 
 type Complex struct {
@@ -12,12 +10,11 @@ type Complex struct {
 	Imag float64
 }
 
-func rescale(xi_min int, xi int, xi_max int, x_min float64, x_max float64) float64 {
+func rescale(xi_min uint, xi uint, xi_max uint, x_min float64, x_max float64) float64 {
 	return float64(xi-xi_min)/float64(xi_max-xi_min)*(x_max-x_min) + x_min
 }
 
-func PixelToCoordinate(it *image.Iterator, width int, height int, xspan [2]float64, yspan [2]float64) Complex {
-	row, col := it.Position()
+func PixelToCoordinate(row uint, col uint, width uint, height uint, xspan [2]float64, yspan [2]float64) Complex {
 	real := rescale(0, col, width, xspan[0], xspan[1])
 	imag := rescale(0, height-row, height, yspan[0], yspan[1])
 	return Complex{real, imag}

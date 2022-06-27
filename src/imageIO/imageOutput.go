@@ -3,7 +3,7 @@ package imageIO
 import (
 	"errors"
 
-	"github.com/EduardGomezEscandell/GoMandelbrot/image"
+	"github.com/EduardGomezEscandell/GoMandelbrot/frames"
 )
 
 const (
@@ -16,7 +16,7 @@ type ImageIOFormat struct {
 	Subformat int
 }
 
-func Save(img *image.Image, filename string, format ImageIOFormat) error {
+func Save(img *frames.Image, filename string, format ImageIOFormat) error {
 	switch format.Format {
 	case PPM:
 		return ImagePPMOutput(img, filename, format.Subformat)
