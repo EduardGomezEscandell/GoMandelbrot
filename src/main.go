@@ -19,7 +19,7 @@ func Log(verbose bool, text string) {
 
 func TimedLog(verbose bool, start time.Time, text string) {
 	if verbose {
-		fmt.Printf("[%fs]: %s\n", time.Since(start).Seconds(), text)
+		fmt.Printf("[%f\"] %s\n", time.Since(start).Seconds(), text)
 	}
 }
 
