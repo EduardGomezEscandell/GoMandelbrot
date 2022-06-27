@@ -1,11 +1,5 @@
 package frames
 
-func Curry[First any, Others any, Ret any](f func(First, Others) Ret, arg First) func(Others) Ret {
-	return func(o Others) Ret {
-		return f(arg, o)
-	}
-}
-
 func ForEach[T any](begin Iterator[T], end Iterator[T], f func(*T)) {
 	for ; begin != end; begin.Next() {
 		f(begin.Ptr())
