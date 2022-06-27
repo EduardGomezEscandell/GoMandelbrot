@@ -102,22 +102,20 @@ func parseAndAssignDefaults() generate.Config {
 }
 
 func main() {
-	config := parseAndAssignDefaults()
+	start := time.Now()
 
+	config := parseAndAssignDefaults()
 	IOformat, err := imageIO.GetFileFormat(config.OutputFilename)
 	if err != nil {
 		panic(err) // Failing early
 	}
-
-	start := time.Now()
-
-	TimedLog(config.Verbosity, start, "Generating map...")
+	TimedLog(config.Verbosity, start, "Input read. Generating map...")
 
 	frame := generate.GenerateConcurrent(&config)
 	TimedLog(config.Verbosity, start, "Map generated. Coloring...")
 
 	image := imageIO.IntToColor(&frame, config.Cmap)
-	TimedLog(config.Verbosity, start, "Coloring done. Writing...")
+	TimedLog(config.Verbosity, start, "Coloring done. Saving...")
 
 	imageIO.Save(&image, config.OutputFilename, config.MetaData, IOformat)
 	TimedLog(config.Verbosity, start, "Done")
