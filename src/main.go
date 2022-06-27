@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/EduardGomezEscandell/GoMandelbrot/colors"
 	"github.com/EduardGomezEscandell/GoMandelbrot/generate"
@@ -12,7 +13,13 @@ import (
 
 func Log(verbose bool, text string) {
 	if verbose {
-		println(text)
+		fmt.Printf("%s\n", text)
+	}
+}
+
+func TimedLog(verbose bool, start time.Time, text string) {
+	if verbose {
+		fmt.Printf("[%fs]: %s\n", time.Since(start).Seconds(), text)
 	}
 }
 
@@ -101,14 +108,17 @@ func main() {
 	if err != nil {
 		panic(err) // Failing early
 	}
-	Log(config.Verbosity, "Generating map...")
+
+	start := time.Now()
+
+	TimedLog(config.Verbosity, start, "Generating map...")
 
 	frame := generate.GenerateConcurrent(&config)
-	Log(config.Verbosity, "Map generated. Coloring...")
+	TimedLog(config.Verbosity, start, "Map generated. Coloring...")
 
 	image := imageIO.IntToColor(&frame, config.Cmap)
-	Log(config.Verbosity, "Coloring done. Writing...")
+	TimedLog(config.Verbosity, start, "Coloring done. Writing...")
 
 	imageIO.Save(&image, config.OutputFilename, IOformat)
-	Log(config.Verbosity, "Done")
+	TimedLog(config.Verbosity, start, "Done")
 }
