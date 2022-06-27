@@ -15,7 +15,7 @@ const (
 	ppm_ASCII
 )
 
-func ppm_header(filehandle *os.File, img *frames.Image, encoding int) {
+func ppm_header(filehandle *os.File, img *frames.Image, metadata string, encoding int) {
 
 	switch encoding {
 	case ppm_ASCII:
@@ -26,7 +26,7 @@ func ppm_header(filehandle *os.File, img *frames.Image, encoding int) {
 		panic("Unknown encoding")
 	}
 
-	fmt.Fprintf(filehandle, "# %s\n", *img.Title())
+	fmt.Fprintf(filehandle, "# %s\n", metadata)
 	fmt.Fprintf(filehandle, "%d %d\n", img.Width(), img.Height())
 	fmt.Fprintf(filehandle, "255\n")
 }
@@ -46,14 +46,14 @@ func ppm_body(filehandle *os.File, img *frames.Image, encoding int) {
 	}
 }
 
-func ImagePPMOutput(img *frames.Image, filename string, encoding int) error {
+func ImagePPMOutput(img *frames.Image, filename string, metadata string, encoding int) error {
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
-	ppm_header(file, img, encoding)
+	ppm_header(file, img, metadata, encoding)
 	ppm_body(file, img, encoding)
 
 	return nil

@@ -16,10 +16,10 @@ type ImageIOFormat struct {
 	Subformat int
 }
 
-func Save(img *frames.Image, filename string, format ImageIOFormat) error {
+func Save(img *frames.Image, filename string, metadata string, format ImageIOFormat) error {
 	switch format.Format {
 	case PPM:
-		return ImagePPMOutput(img, filename, format.Subformat)
+		return ImagePPMOutput(img, filename, metadata, format.Subformat)
 	}
 	return errors.New("Unknown file format")
 }

@@ -4,7 +4,6 @@ import "github.com/EduardGomezEscandell/GoMandelbrot/colors"
 
 type Frame[T any] struct {
 	data   []T
-	title  string
 	width  uint
 	height uint
 }
@@ -31,10 +30,6 @@ func (self *Frame[T]) GetRow(row uint) Row[T] {
 		begin: Iterator[T]{parent: self, idx: row * self.Width()},
 		end:   Iterator[T]{parent: self, idx: (row + 1) * self.Width()},
 	}
-}
-
-func (self *Frame[T]) Title() *string {
-	return &self.title
 }
 
 func (self *Frame[T]) at(idx uint) *T {

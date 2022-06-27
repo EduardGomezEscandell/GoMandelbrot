@@ -119,6 +119,6 @@ func main() {
 	image := imageIO.IntToColor(&frame, config.Cmap)
 	TimedLog(config.Verbosity, start, "Coloring done. Writing...")
 
-	imageIO.Save(&image, config.OutputFilename, IOformat)
+	imageIO.Save(&image, config.OutputFilename, config.MetaData, IOformat)
 	TimedLog(config.Verbosity, start, "Done")
 }
