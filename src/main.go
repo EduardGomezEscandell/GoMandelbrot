@@ -30,7 +30,7 @@ func parseAndAssignDefaults() generate.Config {
 
 	image_width := 1920
 	image_height := 1080
-	subsampling_factor := 1
+	subsampling_level := 1
 
 	colormap := "grayscale"
 	colormap_lb := 0
@@ -60,7 +60,7 @@ func parseAndAssignDefaults() generate.Config {
 	flag.BoolVar(&verbose, "v", verbose, "Verbose mode")
 	flag.StringVar(&output_filename, "o", output_filename, "Output filename")
 
-	flag.IntVar(&subsampling_factor, "sf", subsampling_factor, "Subsampling factor (1 is no subsampling)")
+	flag.IntVar(&subsampling_level, "sf", subsampling_level, "Subsampling factor (1 is no subsampling)")
 
 	flag.Parse()
 
@@ -79,7 +79,7 @@ func parseAndAssignDefaults() generate.Config {
 	Log(verbose, fmt.Sprintf("Generating image with the following settings:"))
 	Log(verbose, fmt.Sprintf("  Max iterations: %d", max_iter))
 	Log(verbose, fmt.Sprintf("  Resolution: %d x %d", image_width, image_height))
-	Log(verbose, fmt.Sprintf("  Subsampling factor: %d", subsampling_factor))
+	Log(verbose, fmt.Sprintf("  Subsampling level: %d", subsampling_level))
 	Log(verbose, fmt.Sprintf("  Colormap: %s [%d, %d] nl=%g", colormap, colormap_lb, colormap_ub, colormap_nl_inverted))
 	Log(verbose, fmt.Sprintf("  Complex plane center: %g%+gi", center.Real, center.Imag))
 	Log(verbose, fmt.Sprintf("  Complex plane span:   %g%+gi", real_span, imag_span))
@@ -89,7 +89,7 @@ func parseAndAssignDefaults() generate.Config {
 	if image_width < 1 || image_height < 1 {
 		fmt.Printf("Error: image resolution must be at least 1x1\n")
 	}
-	if subsampling_factor < 1 {
+	if subsampling_level < 1 {
 		fmt.Printf("Error: subsampling factor must be at least 1\n")
 	}
 	if colormap_nl_inverted < 0 {
@@ -98,13 +98,13 @@ func parseAndAssignDefaults() generate.Config {
 
 	// Packing into GenerationData
 	gdata := generate.Config{
-		Width:            uint(image_width),
-		Height:           uint(image_height),
-		Maxiter:          max_iter,
-		Cmap:             colors.ColormapFactory(colormap, colormap_lb, colormap_ub, color_nonlinearity),
-		OutputFilename:   output_filename,
-		Verbosity:        verbose,
-		SubscalingFactor: uint(subsampling_factor),
+		Width:           uint(image_width),
+		Height:          uint(image_height),
+		Maxiter:         max_iter,
+		Cmap:            colors.ColormapFactory(colormap, colormap_lb, colormap_ub, color_nonlinearity),
+		OutputFilename:  output_filename,
+		Verbosity:       verbose,
+		SubscalingLevel: uint(subsampling_level),
 	}
 	gdata.DefineComplexFrame(center, real_span, imag_span)
 	gdata.MetaData = fmt.Sprintf(

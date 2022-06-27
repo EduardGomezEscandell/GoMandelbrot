@@ -9,16 +9,16 @@ import (
 )
 
 type Config struct {
-	Width            uint
-	Height           uint
-	Cmap             colors.Colormap
-	Maxiter          int
-	Xspan            [2]float64
-	Yspan            [2]float64
-	OutputFilename   string
-	MetaData         string
-	Verbosity        bool
-	SubscalingFactor uint
+	Width           uint
+	Height          uint
+	Cmap            colors.Colormap
+	Maxiter         int
+	Xspan           [2]float64
+	Yspan           [2]float64
+	OutputFilename  string
+	MetaData        string
+	Verbosity       bool
+	SubscalingLevel uint
 }
 
 func (self *Config) DefineComplexFrame(center maths.Complex, real_span float64, imag_span float64) {
@@ -47,18 +47,18 @@ func generate_pixel_subsampled(row uint, col uint, config *Config) int {
 	bl_boundary := bottom_left.Add(center).DivideScalar(2.0)
 	tr_boundary := top_right.Add(center).DivideScalar(2.0)
 
-	delta := tr_boundary.Subtract(bl_boundary).DivideScalar(float64(config.SubscalingFactor))
+	delta := tr_boundary.Subtract(bl_boundary).DivideScalar(float64(config.SubscalingLevel))
 
 	count := 0
 	c := maths.Complex{}
-	for i := uint(0); i < config.SubscalingFactor; i++ {
+	for i := uint(0); i < config.SubscalingLevel; i++ {
 		c.Real = bl_boundary.Real + float64(i)*delta.Real
-		for j := uint(0); j < config.SubscalingFactor; j++ {
+		for j := uint(0); j < config.SubscalingLevel; j++ {
 			c.Imag = bl_boundary.Imag + float64(j)*delta.Imag
 			count += maths.MandelbrotDivergenceIter(c, config.Maxiter)
 		}
 	}
-	return int(float64(count) / float64(config.SubscalingFactor*config.SubscalingFactor))
+	return int(float64(count) / float64(config.SubscalingLevel*config.SubscalingLevel))
 }
 
 func generate_row_subsampled(row frames.Row[int], config *Config) {
@@ -71,7 +71,7 @@ func generate_row_subsampled(row frames.Row[int], config *Config) {
 
 // Sequential version, for debugging
 func generate_sequential(config *Config) frames.IntFrame {
-	if config.SubscalingFactor == 1 {
+	if config.SubscalingLevel == 1 {
 		frame := frames.NewIntFrame(config.Width, config.Height)
 		for i := uint(0); i < config.Height; i++ {
 			generate_row(frame.GetRow(i), config)
@@ -91,7 +91,7 @@ func generate_concurrent(config *Config) frames.IntFrame {
 	var wg sync.WaitGroup
 	defer wg.Wait() // This is a barrier
 
-	if config.SubscalingFactor == 1 {
+	if config.SubscalingLevel == 1 {
 		frame := frames.NewIntFrame(config.Width, config.Height)
 		for i := uint(0); i < config.Height; i++ {
 			wg.Add(1)
