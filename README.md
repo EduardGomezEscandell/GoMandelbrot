@@ -35,10 +35,9 @@ The image is outputted as a [NetPBM](https://en.wikipedia.org/wiki/Netpbm) image
 - .ascii.ppm
 
 You can choose the format with `-o FILENAME.FORMAT`
-
 You can convert them to png with:
 ```bash
-pnmtopng FILENAME.FORMAT > mandelbrot.png
+pnmtopng FILENAME.FORMAT > FILENAME.png
 ```
 
 ### Results
