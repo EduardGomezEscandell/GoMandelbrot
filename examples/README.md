@@ -20,6 +20,13 @@
 
 ![image](spirals.png)
 
+### Spirals (pastel)
+Same as before, except for:
+- Max iterations: 100
+- Colormap: pastel [0, 100] nl=0
+
+![image](spirals_pastel.png)
+
 ### Octopus
 - Max iterations: 1500
 - Resolution: 1920 x 1080
@@ -49,22 +56,16 @@ Acts as an antialiasing. Performance impact is O(n²), with n being the subsampl
 ![image](copies.png)
 
 ### Copies (bright repetitive colormap)
+Same as previous one, except:
 - Max iterations: 50
-- Resolution: 1920 x 1080
 - Subsampling level: 3
 - Colormap: multicolor [0, 50] nl=0
-- Complex plane center: -0.9+0.25i
-- Complex plane span:   0.1875+0.10546875i
 
 ![image](copies_multicolor.png)
 
 ### Copies (pastel repetitive colormap)
-- Max iterations: 50
-- Resolution: 1920 x 1080
-- Subsampling level: 3
+Same as previous one, except:
 - Colormap: pastel [0, 50] nl=0
-- Complex plane center: -0.9+0.25i
-- Complex plane span:   0.1875+0.10546875i
 
 ![image](copies_pastel.png)
 
