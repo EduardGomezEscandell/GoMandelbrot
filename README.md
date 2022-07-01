@@ -3,7 +3,7 @@
 This is a practise exercise to learn Go. It draws the mandelbrot set.
 
 ### The math
-The [mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) is a mathematical object defined as all complex points `c`, such that:
+The [mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) is a mathematical object defined as the set of points `c` in complex space such that:
 - Starting with `z = 0`
 - Repeteadly applying the transformation `f: z → z*z + c`, the norm does not diverge to infinty.
 
