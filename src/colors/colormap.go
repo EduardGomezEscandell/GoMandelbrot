@@ -9,7 +9,7 @@ import (
 type Colormap struct {
 	Lower     int
 	Upper     int
-	eval      func(*Colormap, float64) Color
+	eval      func(*Colormap, int) Color
 	nlp       float64 // Nonlinear parameter
 	root_nlp  float64 // Square root of nonlinear parameter
 	denom_nlp float64 // Denominator of nonlinear parameter
@@ -32,22 +32,7 @@ func normalize(xi_min int, xi int, xi_max int) float64 {
 }
 
 func (self *Colormap) Eval(value int) Color {
-	value_normalized := normalize(self.Lower, value, self.Upper)
-	x := self.value_nonlinearization(value_normalized)
-	return self.eval(self, x)
-}
-
-func grayScaleEval(cmap *Colormap, value_normalized float64) Color {
-	x := 255 - uint8(value_normalized*255)
-	return Color{
-		R: x,
-		G: x,
-		B: x}
-}
-
-func rainbowEval(cmap *Colormap, value_normalized float64) Color {
-	x := value_normalized * 360 * 0.5
-	return ColorFromHSV(x, 0.8, 1)
+	return self.eval(self, value)
 }
 
 func ColormapFactory(name string, lower int, upper int, nonlinear_parameter float64) Colormap {
@@ -59,6 +44,10 @@ func ColormapFactory(name string, lower int, upper int, nonlinear_parameter floa
 		return Colormap{lower, upper, grayScaleEval, nlp, root_nlp, denom_nlp}
 	} else if name == "rainbow" {
 		return Colormap{lower, upper, rainbowEval, nlp, root_nlp, denom_nlp}
+	} else if name == "multicolor" {
+		return Colormap{lower, upper, multicolorEval, 0, 0, 0}
+	} else if name == "pastel" {
+		return Colormap{lower, upper, pastelEval, nlp, root_nlp, denom_nlp}
 	}
 	panic(errors.New(fmt.Sprintf("Colormap %s not found", name)))
 }
