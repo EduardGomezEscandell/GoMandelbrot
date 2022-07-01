@@ -1,4 +1,5 @@
-## Mandelbrot set drawer in Go
+![image](examples/banner.png)
+
 This is a practise exercise to learn Go. It draws the mandelbrot set.
 
 ### The math

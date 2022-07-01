@@ -80,12 +80,12 @@ Same as previous one, except:
 
 ![image](mini.png)
 
-### Maze
+### Banner
 - Max iterations: 5000
-- Resolution: 1920 x 1080
+- Resolution: 1920 x 240
 - Subsampling level: 3
 - Colormap: grayscale [400, 5000] nl=100000
-- Complex plane center: 0.356+0.331i
-- Complex plane span:   0.0001+5.625e-05i
+- Complex plane center: 0.35601+0.331i
+- Complex plane span:   0.0001+1.25e-05i
 
-![image](maze.png)
+![image](banner.png)
