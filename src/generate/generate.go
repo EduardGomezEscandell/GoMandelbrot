@@ -21,15 +21,15 @@ type Config struct {
 	SubscalingLevel uint
 }
 
-func (self *Config) DefineComplexFrame(center maths.Complex, real_span float64, imag_span float64) {
-	self.Xspan = [2]float64{center.Real - real_span/2, center.Real + real_span/2}
-	self.Yspan = [2]float64{center.Imag - imag_span/2, center.Imag + imag_span/2}
+func (self *Config) DefineComplexFrame(center complex128, real_span float64, imag_span float64) {
+	self.Xspan = [2]float64{real(center) - real_span/2.0, real(center) + real_span/2.0}
+	self.Yspan = [2]float64{imag(center) - imag_span/2.0, imag(center) + imag_span/2.0}
 }
 
 // Standard pixels
 func generate_pixel(row uint, col uint, config *Config) int {
 	c := maths.PixelToCoordinate(int(row), int(col), config.Width, config.Height, config.Xspan, config.Yspan)
-	return int(maths.MandelbrotDivergenceIter(c, config.Maxiter))
+	return int(maths.MandelbrotDivergencePeriod(c, config.Maxiter))
 }
 
 func generate_row(row frames.Row[int], config *Config) {
@@ -44,18 +44,18 @@ func generate_pixel_subsampled(row uint, col uint, config *Config) int {
 	top_right := maths.PixelToCoordinate(int(row)+1, int(col)+1, config.Width, config.Height, config.Xspan, config.Yspan)
 	center := maths.PixelToCoordinate(int(row), int(col), config.Width, config.Height, config.Xspan, config.Yspan)
 
-	bl_boundary := bottom_left.Add(center).DivideScalar(2.0)
-	tr_boundary := top_right.Add(center).DivideScalar(2.0)
+	bl_boundary := (bottom_left + center) / 2.0
+	tr_boundary := (top_right + center) / 2.0
 
-	delta := tr_boundary.Subtract(bl_boundary).DivideScalar(float64(config.SubscalingLevel))
+	delta := (tr_boundary - bl_boundary) / complex(float64(config.SubscalingLevel), 0)
 
 	count := uint(0)
-	c := maths.Complex{}
 	for i := uint(0); i < config.SubscalingLevel; i++ {
-		c.Real = bl_boundary.Real + float64(i)*delta.Real
+		real_ := real(bl_boundary) + float64(i)*real(delta)
 		for j := uint(0); j < config.SubscalingLevel; j++ {
-			c.Imag = bl_boundary.Imag + float64(j)*delta.Imag
-			count += maths.MandelbrotDivergenceIter(c, config.Maxiter)
+			imag_ := imag(bl_boundary) + float64(j)*imag(delta)
+			c := complex(real_, imag_)
+			count += maths.MandelbrotDivergencePeriod(c, config.Maxiter)
 		}
 	}
 	return int(float64(count) / float64(config.SubscalingLevel*config.SubscalingLevel))

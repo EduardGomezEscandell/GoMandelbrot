@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/EduardGomezEscandell/GoMandelbrot/colors"
 	"github.com/EduardGomezEscandell/GoMandelbrot/generate"
 	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
-	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
 
 func Log(verbose bool, text string) {
@@ -70,7 +70,10 @@ func parseAndAssignDefaults() generate.Config {
 	}
 	color_nonlinearity := 1.0 / (colormap_nl_inverted + 1.0e-10)
 
-	center := maths.ParseComplex(zcenter)
+	center, err := strconv.ParseComplex(zcenter, 64)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to parse complex number: %s", zcenter))
+	}
 	aspect_ratio := float64(image_height) / float64(image_width)
 	real_span := zspan
 	imag_span := zspan * aspect_ratio
@@ -81,8 +84,8 @@ func parseAndAssignDefaults() generate.Config {
 	Log(verbose, fmt.Sprintf("  Resolution: %d x %d", image_width, image_height))
 	Log(verbose, fmt.Sprintf("  Subsampling level: %d", subsampling_level))
 	Log(verbose, fmt.Sprintf("  Colormap: %s [%d, %d] nl=%g", colormap, colormap_lb, colormap_ub, colormap_nl_inverted))
-	Log(verbose, fmt.Sprintf("  Complex plane center: %g%+gi", center.Real, center.Imag))
-	Log(verbose, fmt.Sprintf("  Complex plane span:   %g%+gi", real_span, imag_span))
+	Log(verbose, fmt.Sprintf("  Complex plane center: %G", center))
+	Log(verbose, fmt.Sprintf("  Complex plane span:   %G", complex(real_span, imag_span)))
 	Log(verbose, fmt.Sprintf("  Output filename:   %s", output_filename))
 
 	// Sanity tests
@@ -111,8 +114,8 @@ func parseAndAssignDefaults() generate.Config {
 	}
 	gdata.DefineComplexFrame(center, real_span, imag_span)
 	gdata.MetaData = fmt.Sprintf(
-		"Mandelbrot set, centered around %f%+fi, width %f, height %f",
-		center.Real, center.Imag, real_span, imag_span)
+		"Mandelbrot set, centered around %g, width %f, height %f",
+		center, real_span, imag_span)
 
 	return gdata
 }
