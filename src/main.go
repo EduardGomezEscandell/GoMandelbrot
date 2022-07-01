@@ -95,12 +95,15 @@ func parseAndAssignDefaults() generate.Config {
 	if colormap_nl_inverted < 0 {
 		fmt.Printf("Error: colormap nonlinearity must be nonnegative\n")
 	}
+	if max_iter < 0 {
+		panic("Error: max iterations must be positive\n")
+	}
 
 	// Packing into GenerationData
 	gdata := generate.Config{
 		Width:           uint(image_width),
 		Height:          uint(image_height),
-		Maxiter:         max_iter,
+		Maxiter:         uint(max_iter),
 		Cmap:            colors.ColormapFactory(colormap, colormap_lb, colormap_ub, color_nonlinearity),
 		OutputFilename:  output_filename,
 		Verbosity:       verbose,
