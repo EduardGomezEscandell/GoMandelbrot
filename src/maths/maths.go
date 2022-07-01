@@ -10,13 +10,13 @@ type Complex struct {
 	Imag float64
 }
 
-func rescale(xi_min uint, xi uint, xi_max uint, x_min float64, x_max float64) float64 {
-	return float64(xi-xi_min)/float64(xi_max-xi_min)*(x_max-x_min) + x_min
+func rescale(xi_min uint, xi int, xi_max uint, x_min float64, x_max float64) float64 {
+	return float64(xi-int(xi_min))/float64(xi_max-xi_min)*(x_max-x_min) + x_min
 }
 
-func PixelToCoordinate(row uint, col uint, width uint, height uint, xspan [2]float64, yspan [2]float64) Complex {
+func PixelToCoordinate(row int, col int, width uint, height uint, xspan [2]float64, yspan [2]float64) Complex {
 	real := rescale(0, col, width, xspan[0], xspan[1])
-	imag := rescale(0, height-row, height, yspan[0], yspan[1])
+	imag := rescale(0, int(height)-row, height, yspan[0], yspan[1])
 	return Complex{real, imag}
 }
 
@@ -49,9 +49,9 @@ func (z *Complex) MagnitudeSquared() float64 {
 	return z.Real*z.Real + z.Imag*z.Imag
 }
 
-func MandelbrotDivergenceIter(c Complex, max_iter int) int {
+func MandelbrotDivergenceIter(c Complex, max_iter uint) uint {
 	z := Complex{0, 0}
-	for i := 0; i < max_iter; i++ {
+	for i := uint(0); i < max_iter; i++ {
 		z = mandelbrot_iteration(z, c)
 		if z.MagnitudeSquared() > 4 {
 			return i

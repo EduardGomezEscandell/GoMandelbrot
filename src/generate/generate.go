@@ -12,7 +12,7 @@ type Config struct {
 	Width           uint
 	Height          uint
 	Cmap            colors.Colormap
-	Maxiter         int
+	Maxiter         uint
 	Xspan           [2]float64
 	Yspan           [2]float64
 	OutputFilename  string
@@ -28,8 +28,8 @@ func (self *Config) DefineComplexFrame(center maths.Complex, real_span float64, 
 
 // Standard pixels
 func generate_pixel(row uint, col uint, config *Config) int {
-	c := maths.PixelToCoordinate(row, col, config.Width, config.Height, config.Xspan, config.Yspan)
-	return maths.MandelbrotDivergenceIter(c, config.Maxiter)
+	c := maths.PixelToCoordinate(int(row), int(col), config.Width, config.Height, config.Xspan, config.Yspan)
+	return int(maths.MandelbrotDivergenceIter(c, config.Maxiter))
 }
 
 func generate_row(row frames.Row[int], config *Config) {
@@ -40,16 +40,16 @@ func generate_row(row frames.Row[int], config *Config) {
 
 // Subsampled pixels
 func generate_pixel_subsampled(row uint, col uint, config *Config) int {
-	bottom_left := maths.PixelToCoordinate(row-1, col-1, config.Width, config.Height, config.Xspan, config.Yspan)
-	top_right := maths.PixelToCoordinate(row+1, col+1, config.Width, config.Height, config.Xspan, config.Yspan)
-	center := maths.PixelToCoordinate(row, col, config.Width, config.Height, config.Xspan, config.Yspan)
+	bottom_left := maths.PixelToCoordinate(int(row)-1, int(col)-1, config.Width, config.Height, config.Xspan, config.Yspan)
+	top_right := maths.PixelToCoordinate(int(row)+1, int(col)+1, config.Width, config.Height, config.Xspan, config.Yspan)
+	center := maths.PixelToCoordinate(int(row), int(col), config.Width, config.Height, config.Xspan, config.Yspan)
 
 	bl_boundary := bottom_left.Add(center).DivideScalar(2.0)
 	tr_boundary := top_right.Add(center).DivideScalar(2.0)
 
 	delta := tr_boundary.Subtract(bl_boundary).DivideScalar(float64(config.SubscalingLevel))
 
-	count := 0
+	count := uint(0)
 	c := maths.Complex{}
 	for i := uint(0); i < config.SubscalingLevel; i++ {
 		c.Real = bl_boundary.Real + float64(i)*delta.Real
