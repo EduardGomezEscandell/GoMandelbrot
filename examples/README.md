@@ -38,7 +38,6 @@ Acts as an antialiasing. Performance impact is O(n²), with n being the subsampl
 
 ![image](octopus_ss.png)
 
-
 ### Copies
 - Max iterations: 200
 - Resolution: 1920 x 1080
@@ -46,7 +45,6 @@ Acts as an antialiasing. Performance impact is O(n²), with n being the subsampl
 - Colormap: grayscale [0, 200]
 - Complex plane center: -0.900000 +0.250000i
 - Complex plane span:   0.187500 +0.105469i
-- Output filename:   mandelbrot.bin.ppm
 
 ![image](copies.png)
 
@@ -58,6 +56,15 @@ Acts as an antialiasing. Performance impact is O(n²), with n being the subsampl
 - Colormap: grayscale [0, 400]
 - Complex plane center: -1.256000 +0.382000i
 - Complex plane span:   0.015000 +0.008438i
-- Output filename:   mandelbrot.bin.ppm
 
 ![image](mini.png)
+
+### Maze
+- Max iterations: 5000
+- Resolution: 1920 x 1080
+- Subsampling level: 3
+- Colormap: grayscale [400, 5000] nl=100000
+- Complex plane center: 0.356+0.331i
+- Complex plane span:   0.0001+5.625e-05i
+
+![image](maze.png)
