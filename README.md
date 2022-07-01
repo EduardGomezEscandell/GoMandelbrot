@@ -33,6 +33,7 @@ You can use flag `-help` to see the tweakables. To see the whole mandelbrot set,
 The image is outputted as a [NetPBM](https://en.wikipedia.org/wiki/Netpbm) image, with either format
 - .ppm OR .bin.ppm
 - .ascii.ppm
+
 You can choose the format with `-o FILENAME.FORMAT`
 
 You can convert them to png with:
