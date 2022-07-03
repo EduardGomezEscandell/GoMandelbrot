@@ -4,11 +4,13 @@ import (
 	"flag"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/EduardGomezEscandell/GoMandelbrot/colors"
 	"github.com/EduardGomezEscandell/GoMandelbrot/generate"
 	"github.com/EduardGomezEscandell/GoMandelbrot/imageIO"
+	"github.com/EduardGomezEscandell/GoMandelbrot/maths"
 )
 
 func Log(verbose bool, text string) {
@@ -23,7 +25,7 @@ func TimedLog(verbose bool, start time.Time, text string) {
 	}
 }
 
-func parseAndAssignDefaults() generate.Config {
+func parseAndAssignDefaults() (generate.Config, generate.IterationCounter) {
 
 	// Defaults
 	max_iter := 1000
@@ -39,8 +41,10 @@ func parseAndAssignDefaults() generate.Config {
 
 	output_filename := "mandelbrot.ppm"
 
-	zcenter := "-0.8033+0.178i"
-	zspan := 0.0017
+	zcenter := "-0.6"
+	zspan := 4.0
+
+	julia_param := "false"
 
 	verbose := false
 
@@ -62,6 +66,8 @@ func parseAndAssignDefaults() generate.Config {
 
 	flag.IntVar(&subsampling_level, "sf", subsampling_level, "Subsampling factor (1 is no subsampling)")
 
+	flag.StringVar(&julia_param, "julia", julia_param, "Complex number: use Julia set. None: use Mandelbrot set")
+
 	flag.Parse()
 
 	// Post-processing
@@ -74,6 +80,19 @@ func parseAndAssignDefaults() generate.Config {
 	if err != nil {
 		panic(fmt.Sprintf("Failed to parse complex number: %s", zcenter))
 	}
+
+	isjulia, generator := func() (bool, generate.IterationCounter) {
+		if strings.ToLower(julia_param) == "false" {
+			return false, maths.MandelbrotDivergencePeriod
+		} else {
+			c, err := strconv.ParseComplex(julia_param, 64)
+			if err != nil {
+				panic(fmt.Sprintf("Failed to parse complex number: %s", julia_param))
+			}
+			return true, func(z complex128, maxiter uint) uint { return maths.JuliaDivergencePeriod(z, c, maxiter) }
+		}
+	}()
+
 	aspect_ratio := float64(image_height) / float64(image_width)
 	real_span := zspan
 	imag_span := zspan * aspect_ratio
@@ -86,6 +105,11 @@ func parseAndAssignDefaults() generate.Config {
 	Log(verbose, fmt.Sprintf("  Colormap: %s [%d, %d] nl=%g", colormap, colormap_lb, colormap_ub, colormap_nl_inverted))
 	Log(verbose, fmt.Sprintf("  Complex plane center: %G", center))
 	Log(verbose, fmt.Sprintf("  Complex plane span:   %G", complex(real_span, imag_span)))
+	if isjulia {
+		Log(verbose, fmt.Sprintf("  Mathematical object:  Julia set with param=%s", julia_param))
+	} else {
+		Log(verbose, fmt.Sprintf("  Mathematical object:  Mandelbrot set"))
+	}
 	Log(verbose, fmt.Sprintf("  Output filename:   %s", output_filename))
 
 	// Sanity tests
@@ -117,20 +141,20 @@ func parseAndAssignDefaults() generate.Config {
 		"Mandelbrot set, centered around %g, width %f, height %f",
 		center, real_span, imag_span)
 
-	return gdata
+	return gdata, generator
 }
 
 func main() {
 	start := time.Now()
 
-	config := parseAndAssignDefaults()
+	config, generator := parseAndAssignDefaults()
 	IOformat, err := imageIO.GetFileFormat(config.OutputFilename)
 	if err != nil {
 		panic(err) // Failing early
 	}
 	TimedLog(config.Verbosity, start, "Input read. Generating map...")
 
-	frame := generate.Generate(&config)
+	frame := generate.Generate(&config, generator)
 	TimedLog(config.Verbosity, start, "Map generated. Coloring...")
 
 	image := imageIO.IntToColor(&frame, config.Cmap)

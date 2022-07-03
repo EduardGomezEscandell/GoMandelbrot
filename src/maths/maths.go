@@ -21,3 +21,14 @@ func MandelbrotDivergencePeriod(c complex128, max_iter uint) uint {
 	}
 	return max_iter
 }
+
+func JuliaDivergencePeriod(z complex128, a complex128, max_iter uint) uint {
+	for i := uint(0); i < max_iter; i++ {
+		z = z*z + a
+		abs2 := real(z)*real(z) + imag(z)*imag(z)
+		if abs2 > 4.0 {
+			return i
+		}
+	}
+	return max_iter
+}
