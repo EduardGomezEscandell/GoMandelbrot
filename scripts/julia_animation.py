@@ -15,7 +15,7 @@ import imageio.v2 as imageio
 @dataclass(frozen=True)
 class Settings:
     results_dir = 'results'
-    resolution = (1080, 1920)
+    resolution = (1088, 1088)
     centerpoint = "0+0i"
     colormap="pastel"
     batchsize = 20
