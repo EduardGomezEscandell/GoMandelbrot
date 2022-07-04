@@ -26,6 +26,22 @@ We can define a function *D: ℂ → ℕ*, that maps each point in the complex p
 
 Monotonous colormaps (such as the grayscale one here) are better at showing divergence period, whereas modular or repetitive colourmaps are better at showing the borders between regions.
 
+### Subsampling
+Due to the fractal nature of the set, the value of *D(z)* for points near the border is chaotic, and the point within a the pixel where *D(x)* is evaluated at is not necessarily representative of the whole area the pixel covers. Visually, this causes consecutive pixels to take very diferent colours, making it appear to be noise. In fact, it is noise; it is a failure to capture frequencies higher that the sampling frequency of the pixel grid. This phenomenon is called [spatial alisaing](https://en.wikipedia.org/wiki/Aliasing).
+
+To avoid this aliasing we apply a low-pass filter by computing the mean value of *D(z)* within the pixel. An exact form of this problem would be finding *d*, such that:
+
+<p align=center>
+*d := ∫∫_p D(z) dA / A(p)*
+</p>
+
+where:
+- *D(z)* is the aforementioned divergence speed function.
+- *dA* is a diferential of complex area.
+- *p* is the region covered by the pixel.
+- *A(p)* is its complex area.
+This integral can be computed numerically using a quadrature rule. For simplicity's sake, I used [Riemann Sums](https://en.wikipedia.org/wiki/Riemann_sum): I sampled *n²* points in the pixel, and computed the average. This value *n* can be passed as an input to the program with the `-sf=<n>` flag. Good results appear with *n=3* (i.e. 9 sampling points per pixel). Be aware that this is an expensive operation.
+
 ## How-to
 
 ### How to run
