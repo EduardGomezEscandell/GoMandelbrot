@@ -1,6 +1,6 @@
 ![image](examples/banner.png)
 
-This is a practise exercise to learn Go. It draws the mandelbrot and Julia set. You can read the theory and details, or you can skip directly to the images [at the end of this page](#figures).
+This is a practise exercise to learn Go. It draws the mandelbrot and Julia sets. You can read the theory and details, or you can skip directly to the images [at the end of this page](#figures).
 
 ## The math
 ### Mandelbrot set
