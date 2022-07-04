@@ -7,8 +7,29 @@
 - Colormap: grayscale [0, 200]
 - Complex plane center: -0.600000 +0.000000i
 - Complex plane span:   4.000000 +2.250000i
+- Mathematical object:  Mandelbrot set
 
 ![image](full.png)
+
+
+### A tour around the Julia set
+Video with 200 frames @ 24 fps
+In each frame:
+- Max iterations: 1500
+- Resolution: 1080 x 1080
+- Subsampling level: 1
+- Colormap: pastel [0, 1500]
+- Complex plane center: 0
+- Complex plane span:   4+4i
+- Mathematical object: Julia set with param `p`.
+
+Parametrized as:
+- `p(t) = cos(t)+sin(t)i    with t ∈ [0, 2π]`
+
+Generated with `scripts/julia_animation.py`
+
+![image](julia.gif)
+
 
 ### Spirals
 - Max iterations: 200
@@ -17,6 +38,7 @@
 - Colormap: grayscale [50, 200]
 - Complex plane center: -0.803300 +0.178000i
 - Complex plane span:   0.001700 +0.000956i
+- Mathematical object:  Mandelbrot set
 
 ![image](spirals.png)
 
@@ -34,6 +56,7 @@ Same as before, except for:
 - Colormap: grayscale [150, 1500] nl=100000
 - Complex plane center: -0.802627 +0.1774515i
 - Complex plane span:   2e-05 +1.125e-05i
+- Mathematical object:  Mandelbrot set
 
 ![image](octopus.png)
 
@@ -52,6 +75,7 @@ Acts as an antialiasing. Performance impact is O(n²), with n being the subsampl
 - Colormap: grayscale [0, 200]
 - Complex plane center: -0.900000 +0.250000i
 - Complex plane span:   0.187500 +0.105469i
+- Mathematical object:  Mandelbrot set
 
 ![image](copies.png)
 
@@ -77,6 +101,7 @@ Same as previous one, except:
 - Colormap: grayscale [0, 400]
 - Complex plane center: -1.256000 +0.382000i
 - Complex plane span:   0.015000 +0.008438i
+- Mathematical object:  Mandelbrot set
 
 ![image](mini.png)
 
@@ -87,5 +112,6 @@ Same as previous one, except:
 - Colormap: grayscale [400, 5000] nl=100000
 - Complex plane center: 0.35601+0.331i
 - Complex plane span:   0.0001+1.25e-05i
+- Mathematical object:  Mandelbrot set
 
 ![image](banner.png)
