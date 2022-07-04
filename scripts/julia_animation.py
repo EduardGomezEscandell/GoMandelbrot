@@ -18,10 +18,11 @@ class Settings:
     resolution = (1088, 1088)
     centerpoint = "0+0i"
     colormap="pastel"
-    batchsize = 20
+    batchsize = 8
     span = 4
     nframes = 200
     fps = 24
+    format = "mp4"
 
 def generate_command(settings):
     commands = [
@@ -60,8 +61,8 @@ def generate_batch(command, begin, end, settings):
     for p in processes:
         p.wait()
 
-def generate_gif(settings):
-    with imageio.get_writer(f'{settings.results_dir}/movie.mp4', mode='I', fps=settings.fps) as writer:
+def animate(settings):
+    with imageio.get_writer(f'{settings.results_dir}/movie.{settings.format}', mode='I', fps=settings.fps) as writer:
         for i in range(settings.nframes):
             image = imageio.imread(f"{settings.results_dir}/julia{i}.png")
             writer.append_data(image)
@@ -74,16 +75,17 @@ def main():
     startup(settings)
 
     print("Generating frames...")
+    print('[', '-'*78, ']', sep='', end='\r')
     for i in range(0, settings.nframes, settings.batchsize):
         begin = i
         end = min(i+settings.batchsize, settings.nframes)
         generate_batch(command, begin, end, settings)
         prop = int(78*end/settings.nframes)
-        print(f"[{'|' * prop}{' '*(78-prop)}]", end="\r")
+        print("[", '#' * prop, '-'*(78-prop),"]", sep='', end="\r")
     print()
 
     print("Assembling gif...")
-    generate_gif(settings)
+    animate(settings)
 
     print("Done!")
 
