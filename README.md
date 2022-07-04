@@ -11,7 +11,7 @@ The [mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) *M ⊂ ℂ*, 
 It is known that if *|z| > 2*, then the value diverges, hence we can test wether a point belongs to the set by checking if *|T(T(T(...T(z)...)))| ≤ 2*. To be certain that a particular point does not diverge, we'd have to iterate at infinitum, hence an upper bound must be set. This upper bound controls the accuracy (higher is better) and computational expense (lower is cheaper).
 
 ### Julia set
-The [Julia set](https://en.wikipedia.org/wiki/Julia_set#Quadratic_polynomials) *J(f) ⊂ ℂ*, with respect to a function *f: ℂ → ℂ*. This codebase particularizes to *f(z)* being a quadratic polynomial with the form *p(z) = z² + k*. The Julia set of a function *f* is defined as the set of all points *c ∈ ℂ* such that:
+The [Julia set](https://en.wikipedia.org/wiki/Julia_set#Quadratic_polynomials) *J(f) ⊂ ℂ*, is defined with respect to a function *f: ℂ → ℂ*. This codebase particularizes to *f(z)* being a quadratic polynomial with the form *p(z) = z² + k*. The Julia set of a function *f* is defined as the set of all points *c ∈ ℂ* such that:
 - Starting with *z = c*
 - Repeteadly applying the transformation *T: z → f(z)*, the norm does not diverge to infinty.
 
