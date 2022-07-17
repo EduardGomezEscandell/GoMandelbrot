@@ -70,4 +70,4 @@ An interesting region of the Mandelbrot set, with a monotonous colormap.
 An interesting region of the Mandelbrot set, with a modular colormap.
 
 ![image](examples/mini.png)
-An region of the Mandelbrot showing self-similarity, with a monotonous colormap.
+A region of the Mandelbrot showing self-similarity, with a monotonous colormap.
