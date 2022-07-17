@@ -37,7 +37,7 @@ Then, to run it, you do
 ```
 ./mandelbrot
 ```
-You can use flag `--help` to see the tweakables. To see the whole mandelbrot set, use:
+You can use flag `--help` to see the tweakables.
 
 
 ### Image format
